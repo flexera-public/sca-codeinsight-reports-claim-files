@@ -1,3 +1,4 @@
 test.bat
 *.log
 *.pyc
+*.html

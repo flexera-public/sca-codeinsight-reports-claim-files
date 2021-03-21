@@ -14,6 +14,8 @@ import os
 import json
 
 import _version
+import report_data
+import report_artifacts
 
 
 ###################################################################################
@@ -59,20 +61,20 @@ def main():
     baseURL = args.baseURL
     reportOptions = json.loads(args.reportOptions)
    
-    #verifyOptions(reportOptions)
-    
-    takeAction = reportOptions["takeAction"]
-    evidence = reportOptions["evidence"]
+    #verifyOptions(reportOptions) 
 
     logger.debug("Custom Report Provided Arguments:")	
     logger.debug("    projectID:  %s" %projectID)	
     logger.debug("    reportID:   %s" %reportID)	
     logger.debug("    baseURL:  %s" %baseURL)	
-    logger.debug("    takeAction:  %s" %takeAction)	
-    logger.debug("    evidence:  %s" %evidence)	
+    logger.debug("    reportOptions:  %s" %reportOptions)	
 
 
 
+    reportData = report_data.gather_data_for_report(baseURL, projectID, authToken, reportName, reportOptions)
+    reports = report_artifacts.create_report_artifacts(reportData)
+
+    
 
 #----------------------------------------------------------------------# 
 def verifyOptions(reportOptions):
