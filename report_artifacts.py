@@ -37,8 +37,11 @@ def generate_html_report(reportData):
     reportName = reportData["reportName"]
     projectName = reportData["projectName"] 
     takeAction = reportData["takeAction"]
-    claimedFilePaths = reportData["claimedFilePaths"]
-    unclaimedFilePaths = reportData["unclaimedFilePaths"]
+    evidence = reportData["evidence"]
+    inventoryItem = reportData["inventoryItem"]
+    claimableFilePaths = reportData["claimableFilePaths"]
+    unclaimableFilePaths = reportData["unclaimableFilePaths"]
+    noEvidenceFilePaths = reportData["noEvidenceFilePaths"]
 
    
     scriptDirectory = os.path.dirname(os.path.realpath(__file__))
@@ -129,6 +132,20 @@ def generate_html_report(reportData):
     # Body of Report
     #---------------------------------------------------------------------------------------------------
     html_ptr.write("<!-- BEGIN BODY -->\n")  
+
+
+    if takeAction:
+        print("Files were added to %s and marked as reviewed" %inventoryItem)
+    
+    
+    print("Files that can be claimed - %s" %(len(claimableFilePaths)))
+
+
+    print("Files that cannot be claimed and need further review - %s" %(len(unclaimableFilePaths)))
+
+
+    print("Files that have no evidence - %s" %len(noEvidenceFilePaths))
+
 
 
     html_ptr.write("<!-- END BODY -->\n")  

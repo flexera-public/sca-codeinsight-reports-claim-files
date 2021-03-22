@@ -21,8 +21,9 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
     projectInformation = CodeInsight_RESTAPIs.project.get_project_information.get_project_information_summary(baseURL, projectID, authToken)
     projectName = projectInformation["name"]
 
-    claimedFilePaths = [] # List to hold the file paths that contain only the evidence to be claimed
-    unclaimedFilePaths = [] # List to hold the file paths that has other evidience
+    claimableFilePaths = [] # List to hold the file paths that contain only the evidence to be claimed
+    unclaimableFilePaths = [] # List to hold the file paths that has other evidience
+    noEvidenceFilePaths = [] # List to hold files without any evidence at all
 
     # Parse report options
     takeAction = reportOptions["takeAction"] 
@@ -66,23 +67,29 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
                     break      
         
         else:
-            hasEvidence = False        
-        
-
-        # If it is just what we want to claim add it to the filePath list
-        if nonClaimedEvidenceFiles == 0 and hasEvidence:
-            claimedFilePaths.append(filePath)
+            hasEvidence = False
+      
+        # Break down the scanned files based on what was found
+        if hasEvidence:
+            # Is it evidence that we wnat to claim?
+            if nonClaimedEvidenceFiles == 0:
+                claimableFilePaths.append(filePath)
+            else:
+                unclaimableFilePaths.append(filePath)
         else:
-            unclaimedFilePaths.append(filePath)
+            noEvidenceFilePaths.append(filePath)  
 
 
     if takeAction.lower() == "true":
         # First see if there is already an inventory item to assign the files to
+        takeAction = True
 
 
         # Add the files to it
-        for file in claimedFilePaths:
+        for file in claimableFilePaths:
             logger.debug("Adding %s to %s" %(file, inventoryItem))
+    else:
+        takeAction = False
 
     
     
@@ -91,8 +98,12 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
     reportData["reportName"] = reportName
     reportData["projectName"] = projectName
     reportData["takeAction"] = takeAction
-    reportData["claimedFilePaths"] = claimedFilePaths
-    reportData["unclaimedFilePaths"] = unclaimedFilePaths
+    reportData["evidence"] = evidence
+    reportData["inventoryItem"] = inventoryItem
+
+    reportData["claimableFilePaths"] = claimableFilePaths
+    reportData["unclaimableFilePaths"] = unclaimableFilePaths
+    reportData["noEvidenceFilePaths"] = noEvidenceFilePaths
     
     
     return reportData
