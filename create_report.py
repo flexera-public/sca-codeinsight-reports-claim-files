@@ -59,7 +59,16 @@ def main():
     reportID = args.reportID
     authToken = args.authToken
     baseURL = args.baseURL
-    reportOptions = json.loads(args.reportOptions)
+
+    # Create a dictionary for the report options
+    # since argparse removes quotes json.load won't work
+    # Split and remove the passed {} as well
+    reportOptions = {}
+    for keyValuePair in args.reportOptions[1:-1].split(','):
+        key, value = keyValuePair.split(':')
+        reportOptions[key] = value
+
+
    
     #verifyOptions(reportOptions) 
 
@@ -68,7 +77,6 @@ def main():
     logger.debug("    reportID:   %s" %reportID)	
     logger.debug("    baseURL:  %s" %baseURL)	
     logger.debug("    reportOptions:  %s" %reportOptions)	
-
 
 
     reportData = report_data.gather_data_for_report(baseURL, projectID, authToken, reportName, reportOptions)
