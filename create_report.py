@@ -48,7 +48,7 @@ parser.add_argument("-reportOpts", "--reportOptions", help="Options for report c
 #----------------------------------------------------------------------#
 def main():
 
-    reportName = "Claimed Evidence Report"
+    reportName = "Claimed Files Report"
 
     logger.info("Creating %s - %s" %(reportName, _version.__version__))
     print("Creating %s - %s" %(reportName, _version.__version__))
