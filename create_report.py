@@ -11,7 +11,6 @@ import sys
 import logging
 import argparse
 import os
-import json
 
 import _version
 import report_data
