@@ -26,7 +26,7 @@ if sys.version_info <= (3, 5):
 else:
     pass
 
-logfileName = os.path.dirname(os.path.realpath(__file__)) + "/_claim-evidence_report.log"
+logfileName = os.path.dirname(os.path.realpath(__file__)) + "/_claim-files_report.log"
 
 ###################################################################################
 #  Set up logging handler to allow for different levels of logging to be capture
