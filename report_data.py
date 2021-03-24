@@ -27,7 +27,7 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
     takeAction = reportOptions["takeAction"] 
     stringsToClaim = reportOptions["stringsToClaim"]  
     inventoryItem = reportOptions["inventoryItem"] 
-    isSearchtermClaimable = reportOptions["isSearchtermClaimable"] 
+    isSearchTermClaimable = reportOptions["isSearchTermClaimable"] 
    
     # Get the evidence gathered
     projectEvidence = CodeInsight_RESTAPIs.project.get_project_evidence.get_project_evidence(baseURL, projectID, authToken)
@@ -110,7 +110,7 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
                 # from being claimed.  Files need to be compared to see if they can be claimed 
                 # already and then check against this criteria
 
-                if isSearchtermClaimable.lower() == "true":
+                if isSearchTermClaimable.lower() == "true":
                     if fileEvidence[filePath]["searchTerm"]: 
                         fileEvidence[filePath]["claimableEvidence"]["searchTerm"] = True
                     claimableFiles[filePath] = fileEvidence[filePath]

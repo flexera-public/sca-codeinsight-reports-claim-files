@@ -13,7 +13,6 @@ import os
 import stat
 import logging
 import argparse
-import json
 
 import CodeInsight_RESTAPIs.reports.get_reports
 import CodeInsight_RESTAPIs.reports.create_report
@@ -47,16 +46,16 @@ reportOptions.append(reportOption)
 
 reportOption = {}
 reportOption["name"] = "inventoryItem"
-reportOption["label"] = "Inventory item to assign files to"
+reportOption["label"] = "Inventory item to assign claimed files to."
 reportOption["description"] = "All files that are claimed will be marked as reviewed and assigned to this inventory item if the above open is <b>True</b>."
 reportOption["type"] = "string"
-reportOption["defaultValue"] = "Claimed Evidence"
+reportOption["defaultValue"] = "ClaimedFiles"
 reportOption["required"] = "false"
 reportOption["order"] = "3"
 reportOptions.append(reportOption)
 
 reportOption = {}
-reportOption["name"] = "isSearchtermClaimable"
+reportOption["name"] = "isSearchTermClaimable"
 reportOption["label"] = "Claim files with search term evidence?  <b>(True/False)</b>"
 reportOption["description"] = "<b>True</b> - Claim file if there is search terms evidence in file.<br> <b>False</b> - Do Not claim file if there is search terms evidence in file."
 reportOption["type"] = "string"
@@ -64,8 +63,6 @@ reportOption["defaultValue"] = "True"
 reportOption["required"] = "true"
 reportOption["order"] = "4"
 reportOptions.append(reportOption)
-
-
 
 
 #####################################################################################################
