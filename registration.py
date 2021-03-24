@@ -26,7 +26,7 @@ enableProjectPickerValue = "false"   # true if a second project can be used with
 reportOptions = []
 #
 reportOption = {}
-reportOption["name"] = "evidence"
+reportOption["name"] = "stringsToClaim"
 reportOption["label"] = "Evidence contains"
 reportOption["description"] = "A string that will be claimed if it is the <b>only</b> evidence discovered."
 reportOption["type"] = "string"
@@ -56,7 +56,7 @@ reportOption["order"] = "3"
 reportOptions.append(reportOption)
 
 reportOption = {}
-reportOption["name"] = "searchTerm"
+reportOption["name"] = "isSearchtermClaimable"
 reportOption["label"] = "Claim files with search term evidence?  <b>(True/False)</b>"
 reportOption["description"] = "<b>True</b> - Claim file if there is search terms evidence in file.<br> <b>False</b> - Do Not claim file if there is search terms evidence in file."
 reportOption["type"] = "string"
