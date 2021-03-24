@@ -21,29 +21,50 @@ import CodeInsight_RESTAPIs.reports.delete_report
 
 #####################################################################################################
 #  Report Details
-reportName = "Claimed Evidence Report"  # What is the name to be shown within Code Insight?
+reportName = "Claimed File Report"  # What is the name to be shown within Code Insight?
 enableProjectPickerValue = "false"   # true if a second project can be used within this report
 reportOptions = []
 #
 reportOption = {}
-reportOption["name"] = "takeAction"
-reportOption["label"] = "A label"
-reportOption["description"] = "What does this thing actually do?"
+reportOption["name"] = "evidence"
+reportOption["label"] = "Evidence contains"
+reportOption["description"] = "A string that will be claimed if it is the <b>only</b> evidence discovered."
 reportOption["type"] = "string"
-reportOption["defaultValue"] = "false"
+reportOption["defaultValue"] = "Flexera"
 reportOption["required"] = "true"
 reportOption["order"] = "1"
 reportOptions.append(reportOption)
-#
+
 reportOption = {}
-reportOption["name"] = "Option2"
-reportOption["label"] = "My second lable"
-reportOption["description"] = "What does this thing actually do?"
+reportOption["name"] = "takeAction"
+reportOption["label"] = "Mark as reviewed and assign files to inventory <b>(True/False)</b>"
+reportOption["description"] = "<b>True</b> - Mark files as reviewed and assign to inventory.<br> <b>False</b> - Only report on the actions that would be taken if true."
 reportOption["type"] = "string"
-reportOption["defaultValue"] = ""
+reportOption["defaultValue"] = "False"
 reportOption["required"] = "true"
 reportOption["order"] = "2"
 reportOptions.append(reportOption)
+
+reportOption = {}
+reportOption["name"] = "inventoryItem"
+reportOption["label"] = "Inventory item to assign files to"
+reportOption["description"] = "All files that are claimed will be marked as reviewed and assigned to this inventory item if the above open is <b>True</b>."
+reportOption["type"] = "string"
+reportOption["defaultValue"] = "Claimed Evidence"
+reportOption["required"] = "false"
+reportOption["order"] = "3"
+reportOptions.append(reportOption)
+
+reportOption = {}
+reportOption["name"] = "searchTerm"
+reportOption["label"] = "Claim files with search term evidence?  <b>(True/False)</b>"
+reportOption["description"] = "<b>True</b> - Claim file if there is search terms evidence in file.<br> <b>False</b> - Do Not claim file if there is search terms evidence in file."
+reportOption["type"] = "string"
+reportOption["defaultValue"] = "True"
+reportOption["required"] = "true"
+reportOption["order"] = "4"
+reportOptions.append(reportOption)
+
 
 
 
@@ -51,8 +72,8 @@ reportOptions.append(reportOption)
 #  Code Insight System Information
 #baseURL = "UPDATEME" # i.e. http://localhost:8888 or https://sca.mycodeinsight.com:8443 
 #adminAuthToken = "UPDATEME"
-baseURL = "http://localhost:8888" # i.e. http://localhost:8888 or https://sca.mycodeinsight.com:8443 
-adminAuthToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZ2VhcnkiLCJ1c2VySWQiOjksImlhdCI6MTYxNjEwNjgzNX0.veQvwM7kIQ08jDMn6bIEqzq3D2mndSMlJdtcTPidRXVXjnIz5zdxBpyZrgl0qNlP6vyyL86FSmWrW8-LCTBmEQ"
+baseURL = "UPDATEME" # i.e. http://localhost:8888 or https://sca.mycodeinsight.com:8443 
+adminAuthToken = "UPDATEME"
 
 #####################################################################################################
 # Quick sanity check
