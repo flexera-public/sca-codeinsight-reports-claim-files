@@ -37,12 +37,10 @@ def generate_html_report(reportData):
     reportName = reportData["reportName"]
     projectName = reportData["projectName"] 
     takeAction = reportData["takeAction"]
-    evidence = reportData["evidence"]
+    stringsToClaim = reportData["stringsToClaim"]
     inventoryItem = reportData["inventoryItem"]
-    claimableFilePaths = reportData["claimableFilePaths"]
-    unclaimableFilePaths = reportData["unclaimableFilePaths"]
-    noEvidenceFilePaths = reportData["noEvidenceFilePaths"]
-
+    claimableFiles = reportData["claimableFiles"]
+    nonclaimableFiles = reportData["nonclaimableFiles"]
    
     scriptDirectory = os.path.dirname(os.path.realpath(__file__))
     cssFile =  os.path.join(scriptDirectory, "html-assets/css/revenera_common.css")
@@ -131,20 +129,203 @@ def generate_html_report(reportData):
     #---------------------------------------------------------------------------------------------------
     # Body of Report
     #---------------------------------------------------------------------------------------------------
-    html_ptr.write("<!-- BEGIN BODY -->\n")  
+    html_ptr.write("<!-- BEGIN BODY -->\n") 
 
+    html_ptr.write("String evidence to claim -  %s<br>" %(stringsToClaim))
 
-    if takeAction:
-        print("Files were added to %s and marked as reviewed" %inventoryItem)
+    html_ptr.write("<hr class='small'>")
+
+    html_ptr.write("<table id='claimableFiles' class='table table-hover table-sm row-border' style='width:90%'>\n")
+
+    html_ptr.write("    <thead>\n")
+    html_ptr.write("        <tr>\n")
+    html_ptr.write("            <th colspan='10' class='text-center'><h4>Claimable Files</h4></th>\n") 
+    html_ptr.write("        </tr>\n") 
+    html_ptr.write("        <tr>\n")
+    html_ptr.write("            <th style='width: 50%' class='text-left text-nowrap'>File Path</th>\n") 
+    html_ptr.write("            <th style='width: 10%' class='text-center'>Claimed Copyright</th>\n") 
+    html_ptr.write("            <th style='width: 10%' class='text-center'>Claimed License</th>\n")
+    html_ptr.write("            <th style='width: 10%' class='text-center'>Claimed Email/URL</th>\n")
+    html_ptr.write("            <th style='width: 10%' class='text-center'>Search Terms</th>\n")
+    html_ptr.write("        </tr>\n")
+    html_ptr.write("    </thead>\n")  
+    html_ptr.write("    <tbody>\n")  
+
+    for filePath in sorted(claimableFiles):
+
+        filelink = claimableFiles[filePath]["filelink"]
+        try:
+            claimableCopyright = claimableFiles[filePath]["claimableEvidence"]["copyright"]
+        except:
+            claimableCopyright = False
+
+        try:
+            claimableLicense = claimableFiles[filePath]["claimableEvidence"]["license"]
+        except:
+            claimableLicense = False
+
+        try:
+            claimableemailURL = claimableFiles[filePath]["claimableEvidence"]["emailURL"]
+        except:
+            claimableemailURL = False
+
+        try:
+            claimableSearchTerm = claimableFiles[filePath]["claimableEvidence"]["searchTerm"]
+        except:
+            claimableSearchTerm = False
+
+        html_ptr.write("        <tr> \n")
+        html_ptr.write("            <td class='text-left'><a href='%s' target='_blank'>%s</a></td>\n" %(filelink, filePath))
+        
+        if claimableCopyright:
+            html_ptr.write("            <td class='text-center text-nowrap'><span class='dot dot-green'></span></td>\n")
+        else:
+            html_ptr.write("            <td>&nbsp</td>\n")
+
+        if claimableLicense:
+            html_ptr.write("            <td  class='text-center text-nowrap'><span class='dot dot-green'></span></td>\n")
+        else:
+            html_ptr.write("            <td>&nbsp</td>\n")
+        
+        if claimableemailURL:
+            html_ptr.write("            <td class='text-center text-nowrap'><span class='dot dot-green'></span></td>\n")
+        else:
+            html_ptr.write("            <td>&nbsp</td>\n")            
+
+        if claimableSearchTerm:
+            html_ptr.write("            <td class='text-center text-nowrap'><span class='dot dot-yellow'></span></td>\n")
+        else:
+            html_ptr.write("            <td>&nbsp</td>\n")  
+
+        html_ptr.write("        </tr>\n") 
+
+    html_ptr.write("    </tbody>\n")
+    html_ptr.write("</table>\n")  
     
-    
-    print("Files that can be claimed - %s" %(len(claimableFilePaths)))
+
+    html_ptr.write("<hr class='small'>")
+
+    html_ptr.write("<table id='nonclaimableFiles' class='table table-hover table-sm row-border' style='width:90%'>\n")
+
+    html_ptr.write("    <thead>\n")
+    html_ptr.write("        <tr>\n")
+    html_ptr.write("            <th colspan='10' class='text-center'><h4>Files with Claimed and Other Evidence</h4></th>\n") 
+    html_ptr.write("        </tr>\n") 
+    html_ptr.write("        <tr>\n")
+    html_ptr.write("            <th style='width: 50%' class='text-left text-nowrap'>File Path</th>\n") 
+    html_ptr.write("            <th style='width: 5%' class='text-center'>Claimed Copyright</th>\n") 
+    html_ptr.write("            <th style='width: 5%' class='text-center'>Claimed License</th>\n")
+    html_ptr.write("            <th style='width: 5%' class='text-center'>Claimed Email/URL</th>\n")
+    html_ptr.write("            <th style='width: 5%' class='text-center'>Other Copyright</th>\n") 
+    html_ptr.write("            <th style='width: 5%' class='text-center'>Other License</th>\n")
+    html_ptr.write("            <th style='width: 5%' class='text-center'>Other Email/URL</th>\n")
+    html_ptr.write("            <th style='width: 5%' class='text-center'>Search Terms</th>\n")
+    html_ptr.write("            <th style='width: 5%' class='text-center'>Exact File Match</th>\n")
+    html_ptr.write("            <th style='width: 5%' class='text-center'>Source Code Match</th>\n")
+    html_ptr.write("        </tr>\n")
+    html_ptr.write("    </thead>\n")  
+    html_ptr.write("    <tbody>\n")  
+
+    for filePath in sorted(nonclaimableFiles):
+
+        filelink = nonclaimableFiles[filePath]["filelink"]
+        try:
+            claimableCopyright = nonclaimableFiles[filePath]["claimableEvidence"]["copyright"]
+        except:
+            claimableCopyright = False
+        try:
+            nonclaimableCopyright = nonclaimableFiles[filePath]["nonclaimableEvidence"]["copyright"]
+        except:
+            nonclaimableCopyright = False
+
+        try:
+            claimableLicense = nonclaimableFiles[filePath]["claimableEvidence"]["license"]
+        except:
+            claimableLicense = False
+        try:
+            nonclaimableLicense = nonclaimableFiles[filePath]["nonclaimableEvidence"]["license"]
+        except:
+            nonclaimableLicense = False
+
+        try:
+            claimableemailURL = nonclaimableFiles[filePath]["claimableEvidence"]["emailURL"]
+        except:
+            claimableemailURL = False
+        try:
+            nonclaimableemailURL = nonclaimableFiles[filePath]["nonclaimableEvidence"]["emailURL"]
+        except:
+            nonclaimableemailURL = False
+
+        try:
+            nonclaimableSearchTerm = nonclaimableFiles[filePath]["nonclaimableEvidence"]["searchTerm"]
+        except:
+            nonclaimableSearchTerm = False
+
+        try:
+            nonclaimableSourceMatch = nonclaimableFiles[filePath]["nonclaimableEvidence"]["sourceMatch"]
+        except:
+            nonclaimableSourceMatch = False
+        try:
+            nonclaimableExactMatch = nonclaimableFiles[filePath]["nonclaimableEvidence"]["exactFile"]
+        except:
+            nonclaimableExactMatch = False
+        
+        html_ptr.write("        <tr> \n")
+        html_ptr.write("            <td class='text-left'><a href='%s' target='_blank'>%s</a></td>\n" %(filelink, filePath))
+        
+        if claimableCopyright:
+            html_ptr.write("            <td class='text-center text-nowrap'><span class='dot dot-green'></span></td>\n")
+        else:
+            html_ptr.write("            <td>&nbsp</td>\n")
+
+        if claimableLicense:
+            html_ptr.write("            <td  class='text-center text-nowrap'><span class='dot dot-green'></span></td>\n")
+        else:
+            html_ptr.write("            <td>&nbsp</td>\n")
+        
+        if claimableemailURL:
+            html_ptr.write("            <td class='text-center text-nowrap'><span class='dot dot-green'></span></td>\n")
+        else:
+            html_ptr.write("            <td>&nbsp</td>\n")            
+
+        if nonclaimableCopyright:
+            html_ptr.write("            <td class='text-center text-nowrap'><span class='dot dot-red'></span></td>\n")
+        else:
+            html_ptr.write("            <td>&nbsp</td>\n")
+
+        if nonclaimableLicense:
+            html_ptr.write("            <td  class='text-center text-nowrap'><span class='dot dot-red'></span></td>\n")
+        else:
+            html_ptr.write("            <td>&nbsp</td>\n")
+        
+        if nonclaimableemailURL:
+            html_ptr.write("            <td class='text-center text-nowrap'><span class='dot dot-red'></span></td>\n")
+        else:
+            html_ptr.write("            <td>&nbsp</td>\n")  
+
+        if nonclaimableSearchTerm:
+            html_ptr.write("            <td class='text-center text-nowrap'><span class='dot dot-red'></span></td>\n")
+        else:
+            html_ptr.write("            <td>&nbsp</td>\n")  
 
 
-    print("Files that cannot be claimed and need further review - %s" %(len(unclaimableFilePaths)))
+        if nonclaimableExactMatch:
+            html_ptr.write("            <td class='text-center text-nowrap'><span class='dot dot-red'></span></td>\n")
+        else:
+            html_ptr.write("            <td>&nbsp</td>\n")  
+
+        if nonclaimableSourceMatch:
+            html_ptr.write("            <td class='text-center text-nowrap'><span class='dot dot-red'></span></td>\n")
+        else:
+            html_ptr.write("            <td>&nbsp</td>\n")  
+
+        html_ptr.write("        </tr>\n") 
+
+    html_ptr.write("    </tbody>\n")
 
 
-    print("Files that have no evidence - %s" %len(noEvidenceFilePaths))
+    html_ptr.write("</table>\n")  
+
 
 
 
@@ -161,6 +342,38 @@ def generate_html_report(reportData):
 
     html_ptr.write("</div>\n")    
 
+    #---------------------------------------------------------------------------------------------------
+    # Add javascript 
+    #---------------------------------------------------------------------------------------------------
+
+    html_ptr.write('''
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>  
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script> 
+    ''')
+
+    html_ptr.write("<script>\n")
+    # Add the js for inventory datatable
+    html_ptr.write('''
+        
+            var table = $('#claimableFiles').DataTable();
+
+            $(document).ready(function() {
+                table;
+            } );
+    ''')
+
+    html_ptr.write('''
+        
+            var table = $('#nonclaimableFiles').DataTable();
+
+            $(document).ready(function() {
+                table;
+            } );
+    ''')
+    html_ptr.write("</script>\n")
 
     html_ptr.write("</body>\n") 
     html_ptr.write("</html>\n") 
