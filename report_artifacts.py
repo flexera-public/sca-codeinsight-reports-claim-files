@@ -139,7 +139,7 @@ def generate_html_report(reportData):
 
     html_ptr.write("    <thead>\n")
     html_ptr.write("        <tr>\n")
-    html_ptr.write("            <th colspan='10' class='text-center'><h4>Claimable Files</h4></th>\n") 
+    html_ptr.write("            <th colspan='10' class='text-center'><h4>%s - Claimable Files</h4></th>\n" %projectName) 
     html_ptr.write("        </tr>\n") 
     html_ptr.write("        <tr>\n")
     html_ptr.write("            <th style='width: 50%' class='text-left text-nowrap'>File Path</th>\n") 
@@ -176,7 +176,7 @@ def generate_html_report(reportData):
 
     html_ptr.write("    <thead>\n")
     html_ptr.write("        <tr>\n")
-    html_ptr.write("            <th colspan='10' class='text-center'><h4>Files with Claimed and Other Evidence</h4></th>\n") 
+    html_ptr.write("            <th colspan='10' class='text-center'><h4>%s - Files with Claimed and Other Evidence</h4></th>\n" %projectName) 
     html_ptr.write("        </tr>\n") 
     html_ptr.write("        <tr>\n")
     html_ptr.write("            <th style='width: 50%' class='text-left text-nowrap'>File Path</th>\n") 
