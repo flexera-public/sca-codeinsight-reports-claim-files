@@ -154,55 +154,22 @@ def generate_html_report(reportData):
     for filePath in sorted(claimableFiles):
 
         filelink = claimableFiles[filePath]["filelink"]
-        try:
-            claimableCopyright = claimableFiles[filePath]["claimableEvidence"]["copyright"]
-        except:
-            claimableCopyright = False
-
-        try:
-            claimableLicense = claimableFiles[filePath]["claimableEvidence"]["license"]
-        except:
-            claimableLicense = False
-
-        try:
-            claimableemailURL = claimableFiles[filePath]["claimableEvidence"]["emailURL"]
-        except:
-            claimableemailURL = False
-
-        try:
-            claimableSearchTerm = claimableFiles[filePath]["claimableEvidence"]["searchTerm"]
-        except:
-            claimableSearchTerm = False
 
         html_ptr.write("        <tr> \n")
         html_ptr.write("            <td class='text-left'><a href='%s' target='_blank'>%s</a></td>\n" %(filelink, filePath))
-        
-        if claimableCopyright:
-            html_ptr.write("            <td class='text-center text-nowrap'><span class='dot dot-green'></span></td>\n")
-        else:
-            html_ptr.write("            <td>&nbsp</td>\n")
 
-        if claimableLicense:
-            html_ptr.write("            <td  class='text-center text-nowrap'><span class='dot dot-green'></span></td>\n")
-        else:
-            html_ptr.write("            <td>&nbsp</td>\n")
-        
-        if claimableemailURL:
-            html_ptr.write("            <td class='text-center text-nowrap'><span class='dot dot-green'></span></td>\n")
-        else:
-            html_ptr.write("            <td>&nbsp</td>\n")            
-
-        if claimableSearchTerm:
-            html_ptr.write("            <td class='text-center text-nowrap'><span class='dot dot-yellow'></span></td>\n")
-        else:
-            html_ptr.write("            <td>&nbsp</td>\n")  
+        for evidence in ["copyright", "license", "emailURL", "searchTerm"]:
+            # See if the evidence exists.  If the key is not there that type was not found
+            if evidence in claimableFiles[filePath]["claimableEvidence"]:
+                html_ptr.write("            <td class='text-center text-nowrap' style='vertical-align: middle;'><span class='dot dot-%s'></span></td>\n" %evidence)
+            else:
+                html_ptr.write("            <td>&nbsp</td>\n")
 
         html_ptr.write("        </tr>\n") 
 
     html_ptr.write("    </tbody>\n")
     html_ptr.write("</table>\n")  
     
-
     html_ptr.write("<hr class='small'>")
 
     html_ptr.write("<table id='nonclaimableFiles' class='table table-hover table-sm row-border' style='width:90%'>\n")
@@ -229,95 +196,23 @@ def generate_html_report(reportData):
     for filePath in sorted(nonclaimableFiles):
 
         filelink = nonclaimableFiles[filePath]["filelink"]
-        try:
-            claimableCopyright = nonclaimableFiles[filePath]["claimableEvidence"]["copyright"]
-        except:
-            claimableCopyright = False
-        try:
-            nonclaimableCopyright = nonclaimableFiles[filePath]["nonclaimableEvidence"]["copyright"]
-        except:
-            nonclaimableCopyright = False
-
-        try:
-            claimableLicense = nonclaimableFiles[filePath]["claimableEvidence"]["license"]
-        except:
-            claimableLicense = False
-        try:
-            nonclaimableLicense = nonclaimableFiles[filePath]["nonclaimableEvidence"]["license"]
-        except:
-            nonclaimableLicense = False
-
-        try:
-            claimableemailURL = nonclaimableFiles[filePath]["claimableEvidence"]["emailURL"]
-        except:
-            claimableemailURL = False
-        try:
-            nonclaimableemailURL = nonclaimableFiles[filePath]["nonclaimableEvidence"]["emailURL"]
-        except:
-            nonclaimableemailURL = False
-
-        try:
-            nonclaimableSearchTerm = nonclaimableFiles[filePath]["nonclaimableEvidence"]["searchTerm"]
-        except:
-            nonclaimableSearchTerm = False
-
-        try:
-            nonclaimableSourceMatch = nonclaimableFiles[filePath]["nonclaimableEvidence"]["sourceMatch"]
-        except:
-            nonclaimableSourceMatch = False
-        try:
-            nonclaimableExactMatch = nonclaimableFiles[filePath]["nonclaimableEvidence"]["exactFile"]
-        except:
-            nonclaimableExactMatch = False
         
         html_ptr.write("        <tr> \n")
         html_ptr.write("            <td class='text-left'><a href='%s' target='_blank'>%s</a></td>\n" %(filelink, filePath))
+
+        for evidence in ["copyright", "license", "emailURL"]:
+            # See if the evidence exists.  If the key is not there that type was not found
+            if evidence in nonclaimableFiles[filePath]["claimableEvidence"]:
+                html_ptr.write("            <td class='text-center text-nowrap' style='vertical-align: middle;'><span class='dot dot-%s'></span></td>\n" %evidence)
+            else:
+                html_ptr.write("            <td>&nbsp</td>\n")
         
-        if claimableCopyright:
-            html_ptr.write("            <td class='text-center text-nowrap'><span class='dot dot-green'></span></td>\n")
-        else:
-            html_ptr.write("            <td>&nbsp</td>\n")
-
-        if claimableLicense:
-            html_ptr.write("            <td  class='text-center text-nowrap'><span class='dot dot-green'></span></td>\n")
-        else:
-            html_ptr.write("            <td>&nbsp</td>\n")
-        
-        if claimableemailURL:
-            html_ptr.write("            <td class='text-center text-nowrap'><span class='dot dot-green'></span></td>\n")
-        else:
-            html_ptr.write("            <td>&nbsp</td>\n")            
-
-        if nonclaimableCopyright:
-            html_ptr.write("            <td class='text-center text-nowrap'><span class='dot dot-red'></span></td>\n")
-        else:
-            html_ptr.write("            <td>&nbsp</td>\n")
-
-        if nonclaimableLicense:
-            html_ptr.write("            <td  class='text-center text-nowrap'><span class='dot dot-red'></span></td>\n")
-        else:
-            html_ptr.write("            <td>&nbsp</td>\n")
-        
-        if nonclaimableemailURL:
-            html_ptr.write("            <td class='text-center text-nowrap'><span class='dot dot-red'></span></td>\n")
-        else:
-            html_ptr.write("            <td>&nbsp</td>\n")  
-
-        if nonclaimableSearchTerm:
-            html_ptr.write("            <td class='text-center text-nowrap'><span class='dot dot-red'></span></td>\n")
-        else:
-            html_ptr.write("            <td>&nbsp</td>\n")  
-
-
-        if nonclaimableExactMatch:
-            html_ptr.write("            <td class='text-center text-nowrap'><span class='dot dot-red'></span></td>\n")
-        else:
-            html_ptr.write("            <td>&nbsp</td>\n")  
-
-        if nonclaimableSourceMatch:
-            html_ptr.write("            <td class='text-center text-nowrap'><span class='dot dot-red'></span></td>\n")
-        else:
-            html_ptr.write("            <td>&nbsp</td>\n")  
+        for evidence in ["copyright", "license", "emailURL", "searchTerm", "sourceMatch", "exactFile"]:
+            # See if the evidence exists.  If the key is not there that type was not found
+            if evidence in nonclaimableFiles[filePath]["nonclaimableEvidence"]:
+                html_ptr.write("            <td class='text-center text-nowrap' style='vertical-align: middle;'><span class='dot dot-%s'></span></td>\n" %evidence)
+            else:
+                html_ptr.write("            <td>&nbsp</td>\n")
 
         html_ptr.write("        </tr>\n") 
 
