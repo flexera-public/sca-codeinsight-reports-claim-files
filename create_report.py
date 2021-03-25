@@ -12,6 +12,7 @@ import logging
 import argparse
 import os
 import zipfile
+import json
 
 import _version
 import report_data
@@ -60,14 +61,19 @@ def main():
     authToken = args.authToken
     baseURL = args.baseURL
 
-    # Create a dictionary for the report options
-    # since argparse removes quotes json.load won't work
-    # Split and remove the passed {} as well
-    reportOptions = {}
-    for keyValuePair in args.reportOptions[1:-1].split(','):
-        key, value = keyValuePair.split(':')
-        reportOptions[key] = value
-
+    # Depending on platform the report options are passed differently
+    if sys.platform.startswith('linux'):
+        reportOptions = json.loads(args.reportOptions[1:-1])
+    elif sys.platform == "win32":
+        # Create a dictionary for the report options
+        # since argparse removes quotes json.load won't work
+        # Split and remove the passed {} as well
+        reportOptions = {}
+        for keyValuePair in args.reportOptions[1:-1].split(','):
+            key, value = keyValuePair.split(':')
+            reportOptions[key] = value
+    else:
+        sys.exit("No script file for operating system")
 
    
     #verifyOptions(reportOptions) 
