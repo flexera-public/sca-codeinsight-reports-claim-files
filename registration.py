@@ -45,11 +45,11 @@ reportOption["order"] = "2"
 reportOptions.append(reportOption)
 
 reportOption = {}
-reportOption["name"] = "inventoryItem"
+reportOption["name"] = "inventoryItemForClaimedFiles"
 reportOption["label"] = "Inventory item to assign claimed files to."
 reportOption["description"] = "All files that are claimed will be marked as reviewed and assigned to this inventory item if the above open is <b>True</b>."
 reportOption["type"] = "string"
-reportOption["defaultValue"] = "ClaimedFiles"
+reportOption["defaultValue"] = "MyClaimedFiles"
 reportOption["required"] = "false"
 reportOption["order"] = "3"
 reportOptions.append(reportOption)
