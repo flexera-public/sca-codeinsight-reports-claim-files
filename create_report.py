@@ -44,8 +44,6 @@ parser.add_argument("-authToken", "--authToken", help="Code Insight Authorizatio
 parser.add_argument("-baseURL", "--baseURL", help="Code Insight Core Server Protocol/Domain Name/Port.  i.e. http://localhost:8888 or https://sca.codeinsight.com:8443")
 parser.add_argument("-reportOpts", "--reportOptions", help="Options for report content")
 
-
-
 #----------------------------------------------------------------------#
 def main():
 
@@ -60,21 +58,13 @@ def main():
     reportID = args.reportID
     authToken = args.authToken
     baseURL = args.baseURL
+    reportOptions = args.reportOptions
 
-    # Depending on platform the report options are passed differently
+    # Based on how the shell pass the arguemnts clean up the options if on a linux system:w
     if sys.platform.startswith('linux'):
-        reportOptions = json.loads(args.reportOptions[1:-1])
-    elif sys.platform == "win32":
-        # Create a dictionary for the report options
-        # since argparse removes quotes json.load won't work
-        # Split and remove the passed {} as well
-        reportOptions = {}
-        for keyValuePair in args.reportOptions[1:-1].split(','):
-            key, value = keyValuePair.split(':')
-            reportOptions[key] = value
-    else:
-        sys.exit("No script file for operating system")
+        reportOptions = reportOptions.replace('""', '"')[1:-1]
 
+    reportOptions = json.loads(reportOptions)
    
     #verifyOptions(reportOptions) 
 
@@ -83,7 +73,6 @@ def main():
     logger.debug("    reportID:   %s" %reportID)	
     logger.debug("    baseURL:  %s" %baseURL)	
     logger.debug("    reportOptions:  %s" %reportOptions)	
-
 
     reportData = report_data.gather_data_for_report(baseURL, projectID, authToken, reportName, reportOptions)
     print("    Report data has been collected")
