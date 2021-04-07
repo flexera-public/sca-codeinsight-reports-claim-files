@@ -26,7 +26,7 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
     # Parse report options
     takeAction = reportOptions["takeAction"] 
     stringsToClaim = reportOptions["stringsToClaim"]  
-    inventoryItem = reportOptions["inventoryItem"] 
+    inventoryItemForClaimedFiles = reportOptions["inventoryItemForClaimedFiles"] 
     isSearchTermClaimable = reportOptions["isSearchTermClaimable"] 
    
     # Get the evidence gathered
@@ -137,7 +137,7 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
     reportData["projectName"] = projectName
     reportData["takeAction"] = takeAction
     reportData["stringsToClaim"] = stringsToClaim
-    reportData["inventoryItem"] = inventoryItem
+    reportData["inventoryItemForClaimedFiles"] = inventoryItemForClaimedFiles
     reportData["claimableFiles"] = claimableFiles
     reportData["nonclaimableFiles"] = nonclaimableFiles
     
