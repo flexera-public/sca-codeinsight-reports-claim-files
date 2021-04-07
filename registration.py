@@ -19,6 +19,17 @@ import CodeInsight_RESTAPIs.reports.create_report
 import CodeInsight_RESTAPIs.reports.delete_report
 
 #####################################################################################################
+#  Code Insight System Information
+baseURL = "UPDATEME" # i.e. http://localhost:8888 or https://sca.mycodeinsight.com:8443 
+adminAuthToken = "UPDATEME"
+
+#####################################################################################################
+# Quick sanity check
+if adminAuthToken == "UPDATEME" or baseURL == "UPDATEME":
+    print("Make sure baseURL and the admin authorization token have been updated within registration.py")
+    sys.exit()
+
+#####################################################################################################
 #  Report Details
 reportName = "Claimed File Report"  # What is the name to be shown within Code Insight?
 enableProjectPickerValue = "false"   # true if a second project can be used within this report
@@ -64,19 +75,6 @@ reportOption["required"] = "true"
 reportOption["order"] = "4"
 reportOptions.append(reportOption)
 
-
-#####################################################################################################
-#  Code Insight System Information
-#baseURL = "UPDATEME" # i.e. http://localhost:8888 or https://sca.mycodeinsight.com:8443 
-#adminAuthToken = "UPDATEME"
-baseURL = "UPDATEME" # i.e. http://localhost:8888 or https://sca.mycodeinsight.com:8443 
-adminAuthToken = "UPDATEME"
-
-#####################################################################################################
-# Quick sanity check
-if adminAuthToken == "UPDATEME" or baseURL == "UPDATEME":
-    print("Make sure baseURL and the admin authorization token have been updated within registration.py")
-    sys.exit()
 
 #####################################################################################################
 # Get the directory name in order to register the script
