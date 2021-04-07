@@ -38,7 +38,7 @@ def generate_html_report(reportData):
     projectName = reportData["projectName"] 
     takeAction = reportData["takeAction"]
     stringsToClaim = reportData["stringsToClaim"]
-    inventoryItem = reportData["inventoryItem"]
+    inventoryItemForClaimedFiles = reportData["inventoryItemForClaimedFiles"]
     claimableFiles = reportData["claimableFiles"]
     nonclaimableFiles = reportData["nonclaimableFiles"]
    
