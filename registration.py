@@ -37,32 +37,12 @@ reportOptions = []
 #
 reportOption = {}
 reportOption["name"] = "stringsToClaim"
-reportOption["label"] = "Evidence contains"
-reportOption["description"] = "A string that will be claimed if it is the <b>only</b> evidence discovered."
+reportOption["label"] = "Evidence contains strings"
+reportOption["description"] = "A string or list of stings seperated by '|' that will be claimed if it is the <b>only</b> evidence discovered. Foe example: <b>foo | bar | foobar</b>"
 reportOption["type"] = "string"
 reportOption["defaultValue"] = "Flexera"
 reportOption["required"] = "true"
 reportOption["order"] = "1"
-reportOptions.append(reportOption)
-
-reportOption = {}
-reportOption["name"] = "takeAction"
-reportOption["label"] = "Mark as reviewed and assign files to inventory <b>(True/False)</b>"
-reportOption["description"] = "<b>True</b> - Mark files as reviewed and assign to inventory.<br> <b>False</b> - Only report on the actions that would be taken if true."
-reportOption["type"] = "string"
-reportOption["defaultValue"] = "False"
-reportOption["required"] = "true"
-reportOption["order"] = "2"
-reportOptions.append(reportOption)
-
-reportOption = {}
-reportOption["name"] = "inventoryItemForClaimedFiles"
-reportOption["label"] = "Inventory item to assign claimed files to."
-reportOption["description"] = "All files that are claimed will be marked as reviewed and assigned to this inventory item if the above open is <b>True</b>."
-reportOption["type"] = "string"
-reportOption["defaultValue"] = "MyClaimedFiles"
-reportOption["required"] = "false"
-reportOption["order"] = "3"
 reportOptions.append(reportOption)
 
 reportOption = {}
@@ -72,8 +52,29 @@ reportOption["description"] = "<b>True</b> - Claim file if there is search terms
 reportOption["type"] = "string"
 reportOption["defaultValue"] = "True"
 reportOption["required"] = "true"
+reportOption["order"] = "2"
+reportOptions.append(reportOption)
+
+reportOption = {}
+reportOption["name"] = "takeAction"
+reportOption["label"] = "Mark as reviewed and assign files to inventory <b>(True/False)</b>"
+reportOption["description"] = "<b>True</b> - Mark files as reviewed and assign to inventory.<br> <b>False</b> - Only report on the actions that would be taken if true."
+reportOption["type"] = "string"
+reportOption["defaultValue"] = "False"
+reportOption["required"] = "true"
+reportOption["order"] = "3"
+reportOptions.append(reportOption)
+
+reportOption = {}
+reportOption["name"] = "inventoryItemForClaimedFiles"
+reportOption["label"] = "Inventory item to assign claimed files to."
+reportOption["description"] = "All files that are claimed will be marked as reviewed and assigned to this inventory item if the above open is <b>True</b>."
+reportOption["type"] = "string"
+reportOption["defaultValue"] = "My Claimed Files"
+reportOption["required"] = "false"
 reportOption["order"] = "4"
 reportOptions.append(reportOption)
+
 
 
 #####################################################################################################
