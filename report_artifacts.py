@@ -131,7 +131,17 @@ def generate_html_report(reportData):
     #---------------------------------------------------------------------------------------------------
     html_ptr.write("<!-- BEGIN BODY -->\n") 
 
-    html_ptr.write("String evidence to claim -  %s<br>" %(stringsToClaim))
+    html_ptr.write("<div class=\"container-fluid\">\n")
+    if takeAction:
+        html_ptr.write("<h2>String evidence that has been claimed</h2>\n")
+    else:
+        html_ptr.write("<h2>String evidence that is claimable</h2>\n")
+    html_ptr.write("<ul>\n")
+    
+    for string in stringsToClaim:
+        html_ptr.write("<li>%s</li>\n"%string)
+    html_ptr.write("</ul'>\n")
+    html_ptr.write("</div>\n")
 
     html_ptr.write("<hr class='small'>")
 
@@ -139,13 +149,22 @@ def generate_html_report(reportData):
 
     html_ptr.write("    <thead>\n")
     html_ptr.write("        <tr>\n")
-    html_ptr.write("            <th colspan='10' class='text-center'><h4>%s - Claimable Files</h4></th>\n" %projectName) 
+    if takeAction:
+        html_ptr.write("            <th colspan='10' class='text-center'><h4>%s - Files claimed and added to %s</h4></th>\n" %(projectName, inventoryItemForClaimedFiles))
+    else:
+        html_ptr.write("            <th colspan='10' class='text-center'><h4>%s - Files that are claimable</h4></th>\n" %projectName) 
+
     html_ptr.write("        </tr>\n") 
     html_ptr.write("        <tr>\n")
     html_ptr.write("            <th style='width: 50%' class='text-left text-nowrap'>File Path</th>\n") 
-    html_ptr.write("            <th style='width: 10%' class='text-center'>Claimed Copyright</th>\n") 
-    html_ptr.write("            <th style='width: 10%' class='text-center'>Claimed License</th>\n")
-    html_ptr.write("            <th style='width: 10%' class='text-center'>Claimed Email/URL</th>\n")
+    if takeAction:
+        html_ptr.write("            <th style='width: 10%' class='text-center'>Claimed Copyright</th>\n") 
+        html_ptr.write("            <th style='width: 10%' class='text-center'>Claimed License</th>\n") 
+        html_ptr.write("            <th style='width: 10%' class='text-center'>Claimed Email/URL</th>\n") 
+    else:
+        html_ptr.write("            <th style='width: 10%' class='text-center'>Claimable Copyright</th>\n") 
+        html_ptr.write("            <th style='width: 10%' class='text-center'>Claimable License</th>\n")
+        html_ptr.write("            <th style='width: 10%' class='text-center'>Claimable Email/URL</th>\n")
     html_ptr.write("            <th style='width: 10%' class='text-center'>Search Terms</th>\n")
     html_ptr.write("        </tr>\n")
     html_ptr.write("    </thead>\n")  
@@ -176,13 +195,13 @@ def generate_html_report(reportData):
 
     html_ptr.write("    <thead>\n")
     html_ptr.write("        <tr>\n")
-    html_ptr.write("            <th colspan='10' class='text-center'><h4>%s - Files with Claimed and Other Evidence</h4></th>\n" %projectName) 
+    html_ptr.write("            <th colspan='10' class='text-center'><h4>%s - Files with Claimable and Other Evidence</h4></th>\n" %projectName) 
     html_ptr.write("        </tr>\n") 
     html_ptr.write("        <tr>\n")
     html_ptr.write("            <th style='width: 50%' class='text-left text-nowrap'>File Path</th>\n") 
-    html_ptr.write("            <th style='width: 5%' class='text-center'>Claimed Copyright</th>\n") 
-    html_ptr.write("            <th style='width: 5%' class='text-center'>Claimed License</th>\n")
-    html_ptr.write("            <th style='width: 5%' class='text-center'>Claimed Email/URL</th>\n")
+    html_ptr.write("            <th style='width: 5%' class='text-center'>Claimable Copyright</th>\n") 
+    html_ptr.write("            <th style='width: 5%' class='text-center'>Claimable License</th>\n")
+    html_ptr.write("            <th style='width: 5%' class='text-center'>Claimable Email/URL</th>\n")
     html_ptr.write("            <th style='width: 5%' class='text-center'>Other Copyright</th>\n") 
     html_ptr.write("            <th style='width: 5%' class='text-center'>Other License</th>\n")
     html_ptr.write("            <th style='width: 5%' class='text-center'>Other Email/URL</th>\n")
