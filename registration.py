@@ -38,9 +38,9 @@ reportOptions = []
 reportOption = {}
 reportOption["name"] = "stringsToClaim"
 reportOption["label"] = "Evidence contains strings"
-reportOption["description"] = "A string or list of stings seperated by '|' that will be claimed if it is the <b>only</b> evidence discovered. Foe example: <b>foo | bar | foobar</b>"
+reportOption["description"] = "A string or list of stings seperated by '|' that will be claimed if it is the <b>only</b> evidence discovered. For example: <b>foo | bar | foobar</b>"
 reportOption["type"] = "string"
-reportOption["defaultValue"] = "Flexera"
+reportOption["defaultValue"] = "Flexera | Revenera"
 reportOption["required"] = "true"
 reportOption["order"] = "1"
 reportOptions.append(reportOption)
