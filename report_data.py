@@ -13,6 +13,7 @@ import CodeInsight_RESTAPIs.project.get_project_information
 import CodeInsight_RESTAPIs.project.get_project_evidence
 import CodeInsight_RESTAPIs.project.get_inventory_summary
 import CodeInsight_RESTAPIs.inventory.add_files_to_inventory
+import CodeInsight_RESTAPIs.inventory.create_inventory
 
 
 logger = logging.getLogger(__name__)
@@ -111,7 +112,7 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
                 nonclaimableFiles[filePath] = fileEvidence[filePath]
             elif fileEvidence[filePath]["claimableEvidence"]:
 
-                # For a serach team check to see if the user wants these to be considered or not
+                # For a search team check to see if the user wants these to be considered or not
                 # prior to claiming.  If True then a search term match will not prevent the file
                 # from being claimed.  Files need to be compared to see if they can be claimed 
                 # already and then check against this criteria
@@ -129,10 +130,40 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
 
 
     if takeAction.lower() == "true":
-        # First see if there is already an inventory item to assign the files to
-        takeAction = True
-        for filePath in claimableFiles:
-            print("Claiming %s" %filePath)
+        takeAction = True # To normalize it for passing to report artifact logic
+
+        # Are there any files to claim at all?
+        if claimableFiles:
+            inventoryID = 0
+
+            # First see if there is already an inventory item to assign the files to
+            projectInventorySummary = CodeInsight_RESTAPIs.project.get_inventory_summary.get_all_project_inventory(baseURL, projectID, authToken)
+            
+            for itemInInventory in projectInventorySummary:            
+                # The inventory item to stored claimed files already exists
+                if inventoryItemForClaimedFiles == itemInInventory["name"]:
+                    inventoryID = itemInInventory["id"]
+                    logger.debug("Inventory item %s found with ID of: %s" %(inventoryItemForClaimedFiles, inventoryID))
+                    break
+                else:
+                    pass
+
+            # The item does not exist so create it
+            if inventoryID == 0:
+                inventoryID = CodeInsight_RESTAPIs.inventory.create_inventory.create_work_in_progress_inventory_item(baseURL, projectID, authToken, inventoryItemForClaimedFiles)
+                logger.debug("Work In Progess Inventory item %s created with ID of: %s" %(inventoryItemForClaimedFiles, inventoryID))
+
+            try:
+                pass
+            except:
+                logger.error("Inventory item %s does not exist!" %(inventoryItemForClaimedFiles))
+                
+            # Add the claimable files
+            CodeInsight_RESTAPIs.inventory.add_files_to_inventory.add_files_to_inventory_and_mark_as_reviewed(baseURL, inventoryID, authToken, claimableFiles)
+        else:
+            logger.info("No files to claim")
+
+
     else:
         takeAction = False
 
