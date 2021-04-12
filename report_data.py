@@ -11,6 +11,8 @@ import logging
 
 import CodeInsight_RESTAPIs.project.get_project_information
 import CodeInsight_RESTAPIs.project.get_project_evidence
+import CodeInsight_RESTAPIs.project.get_inventory_summary
+import CodeInsight_RESTAPIs.inventory.add_files_to_inventory
 
 
 logger = logging.getLogger(__name__)
@@ -28,7 +30,11 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
     stringsToClaim = reportOptions["stringsToClaim"]  
     inventoryItemForClaimedFiles = reportOptions["inventoryItemForClaimedFiles"] 
     isSearchTermClaimable = reportOptions["isSearchTermClaimable"] 
-   
+
+    # See if there are mulitple strings to be claimed and clean them up
+    stringsToClaim = stringsToClaim.split("|")
+    stringsToClaim = [string.lower().strip() for string in stringsToClaim]
+
     # Get the evidence gathered
     projectEvidence = CodeInsight_RESTAPIs.project.get_project_evidence.get_project_evidence(baseURL, projectID, authToken)
     for evidence in projectEvidence["data"]:
@@ -56,19 +62,19 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
             # For each file see if there is something other than what we are looking for
             # if so this file would need review since there is more too it
             for copyright in copyrightEvidienceFound:
-                if stringsToClaim.lower() in copyright.lower():
+                if any(string in copyright.lower() for string in stringsToClaim):
                     fileEvidence[filePath]["claimableEvidence"]["copyright"] = True
                 else:
                     fileEvidence[filePath]["nonclaimableEvidence"]["copyright"] = True
 
             for emailURL in emailUrlEvidenceFound:
-                if stringsToClaim.lower() in emailURL.lower():
+                if any(string in emailURL.lower() for string in stringsToClaim):
                     fileEvidence[filePath]["claimableEvidence"]["emailURL"] = True
                 else:
                     fileEvidence[filePath]["nonclaimableEvidence"]["emailURL"] = True
       
             for license in licenseEvidenceFound:
-                if stringsToClaim.lower() in license.lower():
+                if any(string in license.lower() for string in stringsToClaim):
                     fileEvidence[filePath]["claimableEvidence"]["license"] = True
                 else:
                     fileEvidence[filePath]["nonclaimableEvidence"]["license"] = True
@@ -120,7 +126,7 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
                         nonclaimableFiles[filePath] = fileEvidence[filePath]
                     else:
                         claimableFiles[filePath] = fileEvidence[filePath]
-                    
+
 
     if takeAction.lower() == "true":
         # First see if there is already an inventory item to assign the files to
