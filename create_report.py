@@ -17,6 +17,7 @@ import json
 import _version
 import report_data
 import report_artifacts
+import report_errors
 import CodeInsight_RESTAPIs.project.upload_reports
 
 ###################################################################################
@@ -66,7 +67,7 @@ def main():
 
     reportOptions = json.loads(reportOptions)
    
-    #verifyOptions(reportOptions) 
+    reportOptions = verifyOptions(reportOptions) 
 
     logger.debug("Custom Report Provided Arguments:")	
     logger.debug("    projectID:  %s" %projectID)	
@@ -74,10 +75,21 @@ def main():
     logger.debug("    baseURL:  %s" %baseURL)	
     logger.debug("    reportOptions:  %s" %reportOptions)	
 
-    reportData = report_data.gather_data_for_report(baseURL, projectID, authToken, reportName, reportOptions)
-    print("    Report data has been collected")
-    reports = report_artifacts.create_report_artifacts(reportData)
-    print("    Report artifacts have been created")
+    if "errorMsg" in reportOptions.keys():
+        reportOptions["reportName"] = reportName
+        reports = report_errors.create_error_report(reportOptions)
+        print("    *** ERROR  ***  Error found validating report options")
+    else:
+        reportData = report_data.gather_data_for_report(baseURL, projectID, authToken, reportName, reportOptions)
+        print("    Report data has been collected")
+
+        if "errorMsg" in reportData.keys():
+            reports = report_errors.create_error_report(reportData)
+            print("    Report artifacts have been created")
+        else:
+            reports = report_artifacts.create_report_artifacts(reportData)
+            print("    Report artifacts have been created")
+
     uploadZipfile = create_report_zipfile(reports, reportName)
     print("    Upload zip file creation completed")
     CodeInsight_RESTAPIs.project.upload_reports.upload_project_report_data(baseURL, projectID, reportID, authToken, uploadZipfile)
@@ -100,13 +112,37 @@ def verifyOptions(reportOptions):
     '''
     Expected Options for report:
         takeAction - True/False
-        evidence - String Value
+        stringsToClaim
+        isSearchTermClaimable
+        inventoryItemForClaimedFiles
     '''
+    reportOptions["errorMsg"] = []
+    trueOptions = ["true", "t", "yes"]
+    falseOptions = ["false", "f", "no"]
 
-    takeAction = str(reportOptions["options"]["takeAction"])
+    takeAction = reportOptions["takeAction"]
 
-    if takeAction.lower() not in ["true", "false"]:
-        print("No good")
+    if takeAction.lower() in trueOptions:
+        reportOptions["takeAction"] = "true"
+    elif takeAction.lower() in falseOptions:
+        reportOptions["takeAction"] = "false"
+    else:
+        reportOptions["errorMsg"].append("Invalid option for taking action: <b>%s</b>.  Valid options are <b>True/False</b>" %takeAction)
+    
+    isSearchTermClaimable = reportOptions["isSearchTermClaimable"]
+
+    if isSearchTermClaimable.lower() in trueOptions:
+        reportOptions["isSearchTermClaimable"] = "true"
+    elif isSearchTermClaimable.lower() in falseOptions:
+        reportOptions["isSearchTermClaimable"] = "false"
+    else:
+        reportOptions["errorMsg"].append("Invalid options for claiming items with search terms: <b>%s</b>.  Valid options are <b>True/False</b>" %isSearchTermClaimable)
+
+
+    if not reportOptions["errorMsg"]:
+        reportOptions.pop('errorMsg', None)
+
+    return reportOptions
 
 
 #---------------------------------------------------------------------#
