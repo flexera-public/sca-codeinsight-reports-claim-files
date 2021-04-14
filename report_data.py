@@ -74,11 +74,10 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
                 else:
                     fileEvidence[filePath]["nonclaimableEvidence"]["emailURL"] = True
       
-            for license in licenseEvidenceFound:
-                if any(string in license.lower() for string in stringsToClaim):
-                    fileEvidence[filePath]["claimableEvidence"]["license"] = True
-                else:
-                    fileEvidence[filePath]["nonclaimableEvidence"]["license"] = True
+            if len(licenseEvidenceFound):
+                fileEvidence[filePath]["nonclaimableEvidence"]["license"] = True
+            else:
+                fileEvidence[filePath]["claimableEvidence"]["license"] = True
 
             if searchTextMatchEvidenceFound:
                 fileEvidence[filePath]["searchTerm"] = True

@@ -159,11 +159,9 @@ def generate_html_report(reportData):
     html_ptr.write("            <th style='width: 50%' class='text-left text-nowrap'>File Path</th>\n") 
     if takeAction:
         html_ptr.write("            <th style='width: 10%' class='text-center'>Claimed Copyright</th>\n") 
-        html_ptr.write("            <th style='width: 10%' class='text-center'>Claimed License</th>\n") 
         html_ptr.write("            <th style='width: 10%' class='text-center'>Claimed Email/URL</th>\n") 
     else:
         html_ptr.write("            <th style='width: 10%' class='text-center'>Claimable Copyright</th>\n") 
-        html_ptr.write("            <th style='width: 10%' class='text-center'>Claimable License</th>\n")
         html_ptr.write("            <th style='width: 10%' class='text-center'>Claimable Email/URL</th>\n")
     html_ptr.write("            <th style='width: 10%' class='text-center'>Search Terms</th>\n")
     html_ptr.write("        </tr>\n")
@@ -177,7 +175,7 @@ def generate_html_report(reportData):
         html_ptr.write("        <tr> \n")
         html_ptr.write("            <td class='text-left'><a href='%s' target='_blank'>%s</a></td>\n" %(filelink, filePath))
 
-        for evidence in ["copyright", "license", "emailURL", "searchTerm"]:
+        for evidence in ["copyright", "emailURL", "searchTerm"]:
             # See if the evidence exists.  If the key is not there that type was not found
             if evidence in claimableFiles[filePath]["claimableEvidence"]:
                 html_ptr.write("            <td class='text-center text-nowrap' style='vertical-align: middle;'><span class='dot dot-%s'></span></td>\n" %evidence)
@@ -200,11 +198,10 @@ def generate_html_report(reportData):
     html_ptr.write("        <tr>\n")
     html_ptr.write("            <th style='width: 50%' class='text-left text-nowrap'>File Path</th>\n") 
     html_ptr.write("            <th style='width: 5%' class='text-center'>Claimable Copyright</th>\n") 
-    html_ptr.write("            <th style='width: 5%' class='text-center'>Claimable License</th>\n")
     html_ptr.write("            <th style='width: 5%' class='text-center'>Claimable Email/URL</th>\n")
     html_ptr.write("            <th style='width: 5%' class='text-center'>Other Copyright</th>\n") 
-    html_ptr.write("            <th style='width: 5%' class='text-center'>Other License</th>\n")
     html_ptr.write("            <th style='width: 5%' class='text-center'>Other Email/URL</th>\n")
+    html_ptr.write("            <th style='width: 5%' class='text-center'>License</th>\n")
     html_ptr.write("            <th style='width: 5%' class='text-center'>Search Terms</th>\n")
     html_ptr.write("            <th style='width: 5%' class='text-center'>Exact File Match</th>\n")
     html_ptr.write("            <th style='width: 5%' class='text-center'>Source Code Match</th>\n")
@@ -219,14 +216,14 @@ def generate_html_report(reportData):
         html_ptr.write("        <tr> \n")
         html_ptr.write("            <td class='text-left'><a href='%s' target='_blank'>%s</a></td>\n" %(filelink, filePath))
 
-        for evidence in ["copyright", "license", "emailURL"]:
+        for evidence in ["copyright", "emailURL"]:
             # See if the evidence exists.  If the key is not there that type was not found
             if evidence in nonclaimableFiles[filePath]["claimableEvidence"]:
                 html_ptr.write("            <td class='text-center text-nowrap' style='vertical-align: middle;'><span class='dot dot-%s'></span></td>\n" %evidence)
             else:
                 html_ptr.write("            <td>&nbsp</td>\n")
         
-        for evidence in ["copyright", "license", "emailURL", "searchTerm", "sourceMatch", "exactFile"]:
+        for evidence in ["copyright", "emailURL", "license",  "searchTerm", "sourceMatch", "exactFile"]:
             # See if the evidence exists.  If the key is not there that type was not found
             if evidence in nonclaimableFiles[filePath]["nonclaimableEvidence"]:
                 html_ptr.write("            <td class='text-center text-nowrap' style='vertical-align: middle;'><span class='dot dot-%s'></span></td>\n" %evidence)
