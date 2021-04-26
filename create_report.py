@@ -117,8 +117,8 @@ def verifyOptions(reportOptions):
         inventoryItemForClaimedFiles
     '''
     reportOptions["errorMsg"] = []
-    trueOptions = ["true", "t", "yes"]
-    falseOptions = ["false", "f", "no"]
+    trueOptions = ["true", "t", "yes", "y"]
+    falseOptions = ["false", "f", "no", "n"]
 
     takeAction = reportOptions["takeAction"]
 
