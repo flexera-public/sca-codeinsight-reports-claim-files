@@ -14,6 +14,7 @@ import CodeInsight_RESTAPIs.project.get_project_evidence
 import CodeInsight_RESTAPIs.project.get_inventory_summary
 import CodeInsight_RESTAPIs.inventory.add_files_to_inventory
 import CodeInsight_RESTAPIs.inventory.create_inventory
+import CodeInsight_RESTAPIs.inventory.recall_inventory
 
 
 logger = logging.getLogger(__name__)
@@ -151,6 +152,8 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
             if inventoryID == 0:
                 inventoryID = CodeInsight_RESTAPIs.inventory.create_inventory.create_work_in_progress_inventory_item(baseURL, projectID, authToken, inventoryItemForClaimedFiles)
                 logger.debug("Work In Progess Inventory item %s created with ID of: %s" %(inventoryItemForClaimedFiles, inventoryID))
+                # Recall newly created inventory item
+                CodeInsight_RESTAPIs.inventory.recall_inventory.recall_inventory_item(baseURL, inventoryID, authToken)
 
             try:
                 pass
@@ -159,6 +162,7 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
                 
             # Add the claimable files
             CodeInsight_RESTAPIs.inventory.add_files_to_inventory.add_files_to_inventory_and_mark_as_reviewed(baseURL, inventoryID, authToken, claimableFiles)
+
         else:
             logger.info("No files to claim")
 
