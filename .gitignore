@@ -1,3 +1,5 @@
+venv
+.vscode
 test.bat
 *.log
 *.pyc
