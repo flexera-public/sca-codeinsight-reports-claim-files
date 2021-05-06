@@ -43,6 +43,18 @@ The [create_report.sh](create_report.sh) or [create_report.bat](create_report.ba
 
 For registration purposes update the **baseURL** and **adminAuthToken** values within [registration.py](registration.py) to reflect the correct values to allow the report itself to be registered on the Code Insight server.
 
+### Registering the Report
+
+Prior to being able to call the script directly from within Code Insight it must be registered. The [registraion.py](registration.py) file can be used to directly register the report once the contents of this repository have been copied into the custom_report_script folder at the base Code Insight installation directory.  Default values for the report options can be specified within the [registraion.py](registration.py) file
+
+To register this report:
+
+    python registration.py -reg
+
+To unregister this report:
+
+    python registration.py -unreg
+
 ## Usage
 
 This report is executed directly from within Revenera's Code Insight product. From the summary page of each Code Insight project it is possible to *generate* the **Claimed File Report** via the Custom Report Framework. Once this report has been selected for generation the following options can be entered
@@ -70,21 +82,6 @@ For this example report these three items are passed on to a batch or sh file wh
 - Upload this combined zip file to Code Insight via REST API
 - Delete the report artifacts that were created as the script ran
 
-
-
-### Registering the Report
-
-
-Prior to being able to call the script directly from within Code Insight it must be registered. The [registraion.py](registration.py) file can be used to directly register the report once the contents of this repository have been copied into the custom_report_script folder at the base Code Insight installation directory.  Default values for the report options can be specified within the [registraion.py](registration.py) file
-
-To register this report:
-
-    python registration.py -reg
-
-
-To unregister this report:
-
-    python registration.py -unreg
 
 ## License
 
