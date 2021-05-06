@@ -1,6 +1,6 @@
 # sca-codeinsight-reports-claim-evidence
 
-The sca-codeinsight-reports-claim-files repository is a example custom report for Revenera's Code Insight product. This report allows a user to determine which files within a project contain only evidience that is claimable based on a string comparison to the follow evidence types:
+The sca-codeinsight-reports-claim-files repository is a example custom report for Revenera's Code Insight product. This report allows a user to determine which files within a project contain only evidence that is claimable based on a string comparison to the follow evidence types:
  
 - copyright
 - emails/urls
