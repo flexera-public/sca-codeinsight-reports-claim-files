@@ -65,7 +65,7 @@ def generate_html_report(reportData):
     # Grab the current date/time for report date stamp
     now = datetime.now().strftime("%B %d, %Y at %H:%M:%S")
 
-    htmlFile = reportName.replace(" ", "_") + ".html"
+    htmlFile = projectName.replace(" - ", "-").replace(" ", "_") + "-" + reportName.replace(" ", "_") + ".html"
     logger.debug("htmlFile: %s" %htmlFile)
     
     #---------------------------------------------------------------------------------------------------
