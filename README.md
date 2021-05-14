@@ -59,6 +59,8 @@ To unregister this report:
 
 This report is executed directly from within Revenera's Code Insight product. From the project reports tab of each Code Insight project it is possible to *generate* the **Claimed File Report** via the Custom Report Framework.
 
+The following report options can be set once the report generation has been initiated:
+
 - Evidence contains strings - a | seperated list of strings that can be claimed.  i.e.  Flexera | Revenera
 - Claim files with search term evidence - (True/False) - Consider serch terms when determining to claim files or not
 - Mark as reviewed and assigned files to inventory - (True/False)
