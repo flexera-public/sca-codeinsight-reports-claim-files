@@ -16,10 +16,6 @@ This repository utilizes the following via CDN for the creation of the report ar
 **Code Insight Release Requirements**
 
 |Repository Tag | Minimum Code Insight Release |
-<<<<<<< HEAD
-=======
-
->>>>>>> 9a63c2a1895f794d0822baa3b7064449d17ea9b6
 |--|--|
 |1.0.x | 2021R2 |
 
