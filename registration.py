@@ -13,15 +13,26 @@ import os
 import stat
 import logging
 import argparse
+import json
+
 
 import CodeInsight_RESTAPIs.reports.get_reports
 import CodeInsight_RESTAPIs.reports.create_report
 import CodeInsight_RESTAPIs.reports.delete_report
+import CodeInsight_RESTAPIs.reports.update_report
 
 #####################################################################################################
 #  Code Insight System Information
-baseURL = "UPDATEME" # i.e. http://localhost:8888 or https://sca.mycodeinsight.com:8443 
-adminAuthToken = "UPDATEME"
+#  See if there is a common file for config details
+try:
+    ptr = open("../common_config.json")
+    configData = json.load(ptr)
+    baseURL = configData["baseURL"]
+    adminAuthToken = configData["adminAuthToken"]
+    ptr.close()
+except:
+    baseURL = "UPDATEME" # i.e. http://localhost:8888 or https://sca.mycodeinsight.com:8443 
+    adminAuthToken = "UPDATEME"
 
 #####################################################################################################
 # Quick sanity check
@@ -40,7 +51,7 @@ reportOption["name"] = "stringsToClaim"
 reportOption["label"] = "Evidence contains strings"
 reportOption["description"] = "A string or list of stings separated by '|' that will be claimed if it is the <b>only</b> evidence discovered. For example: <b>foo | bar | foobar</b>"
 reportOption["type"] = "string"
-reportOption["defaultValue"] = "Flexera | Revenera"
+reportOption["defaultValue"] = "Flexera | Revenera | Acme"
 reportOption["required"] = "true"
 reportOption["order"] = "1"
 reportOptions.append(reportOption)
@@ -112,6 +123,8 @@ logger = logging.getLogger(__name__)
 parser = argparse.ArgumentParser()
 parser.add_argument('-reg', "--register", action='store_true', help="Register custom reports")
 parser.add_argument("-unreg", "--unregister", action='store_true', help="Unegister custom reports")
+parser.add_argument("-update", "--update", action='store_true', help="Update a registered custom reports")
+
 
 #----------------------------------------------------------------------#
 def main():
@@ -128,6 +141,8 @@ def main():
             os.chmod(reportHelperScript, os.stat(reportHelperScript).st_mode | stat.S_IEXEC)
     elif args.unregister:
         unregister_custom_reports()
+    elif args.update:
+        update_custom_reports()
     else:
         parser.print_help(sys.stderr)
 
@@ -138,7 +153,7 @@ def register_custom_reports():
     # Get the current reports so we can ensure the indexes of the new
     # reports have no conflicts
     try:
-        currentReports = CodeInsight_RESTAPIs.reports.get_reports.get_currently_registered_reports(baseURL, adminAuthToken)
+        currentReports = CodeInsight_RESTAPIs.reports.get_reports.get_all_currently_registered_reports(baseURL, adminAuthToken)
     except:
         logger.error("Unable to retrieve currently registered reports")
         print("Unable to retrieve currently registered reports.  See log file for details")
@@ -173,7 +188,33 @@ def unregister_custom_reports():
         logger.error("Unable to unregister report %s" %reportName)
         print("Unable to unregister report %s.  See log file for details" %reportName)
         sys.exit()
-  
+
+#-----------------------------------------------------------------------#
+def update_custom_reports():
+    logger.debug("Entering update_custom_reports")
+
+    try:
+        currentReportDetails = CodeInsight_RESTAPIs.reports.get_reports.get_all_currently_registered_reports_by_name(baseURL, adminAuthToken, reportName)
+    except:
+        logger.error("Unable to retrieve details about report: %s" %reportName)
+        print("Unable to retrieve details about report: %s.  See log file for details" %reportName)
+        sys.exit()
+
+    reportID = currentReportDetails[0]["id"]
+    reportOrder = currentReportDetails[0]["order"]
+
+    logger.info("Attempting to update %s with a report id of %s" %(reportName, reportID))
+    print("Attempting to update %s with a report id of %s" %(reportName, reportID))
+
+    try:
+        reportID = CodeInsight_RESTAPIs.reports.update_report.update_custom_report(reportName, reportPath, reportID, reportOrder, enableProjectPickerValue, reportOptions, baseURL, adminAuthToken)
+        print("%s has been updated" %(reportName))
+        logger.info("%s has been updated." %(reportName))
+    except:
+        logger.error("Unable to update report %s" %reportName)
+        print("Unable to update report %s.  See log file for details" %reportName)
+        sys.exit() 
+
 #----------------------------------------------------------------------#    
 if __name__ == "__main__":
     main()    

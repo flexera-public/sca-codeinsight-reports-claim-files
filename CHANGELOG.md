@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [1.0.2] - 2021-06-01
+### Added
+- Add update capability to registration script
+- Add ability to read from common config file for registration
+
 ## [1.0.1] - 2021-05-04
 ### Added
 - Initial public release of claimed file report
