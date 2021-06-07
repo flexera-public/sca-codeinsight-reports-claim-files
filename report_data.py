@@ -175,6 +175,7 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
     reportData = {}
     reportData["reportName"] = reportName
     reportData["projectName"] = projectName
+    reportData["projectID"] = projectID
     reportData["takeAction"] = takeAction
     reportData["stringsToClaim"] = stringsToClaim
     reportData["inventoryItemForClaimedFiles"] = inventoryItemForClaimedFiles

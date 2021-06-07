@@ -35,7 +35,9 @@ def generate_html_report(reportData):
     logger.info("    Entering generate_html_report")
 
     reportName = reportData["reportName"]
-    projectName = reportData["projectName"] 
+    projectName = reportData["projectName"]
+    projectID = reportData["projectID"] 
+    fileNameTimeStamp = reportData["fileNameTimeStamp"]  
     takeAction = reportData["takeAction"]
     stringsToClaim = reportData["stringsToClaim"]
     inventoryItemForClaimedFiles = reportData["inventoryItemForClaimedFiles"]
@@ -65,7 +67,7 @@ def generate_html_report(reportData):
     # Grab the current date/time for report date stamp
     now = datetime.now().strftime("%B %d, %Y at %H:%M:%S")
 
-    htmlFile = projectName.replace(" - ", "-").replace(" ", "_") + "-" + reportName.replace(" ", "_") + ".html"
+    htmlFile = reportName.replace(" ", "_") + "-" + str(projectID)  + "-" + fileNameTimeStamp + ".html"
     logger.debug("htmlFile: %s" %htmlFile)
     
     #---------------------------------------------------------------------------------------------------
