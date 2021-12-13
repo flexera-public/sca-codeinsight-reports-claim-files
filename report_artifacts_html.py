@@ -197,7 +197,7 @@ def generate_html_report(reportData):
             else:
                 html_ptr.write("            <td>&nbsp</td>\n")
         
-        for evidence in ["copyright", "emailURL", "license",  "searchTerm", "sourceMatch", "exactFile"]:
+        for evidence in ["copyright", "emailURL", "license",  "searchTerm", "exactMatch", "sourceMatch"]:
             # See if the evidence exists.  If the key is not there that type was not found
             if evidence in nonclaimableFiles[filePath]["nonclaimableEvidence"]:
                 html_ptr.write("            <td class='text-center text-nowrap' style='vertical-align: middle;'><span class='dot dot-%s'></span></td>\n" %evidence)

@@ -88,7 +88,7 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
             # With an exact match or a source match we want to make sure the file
             # cannot be claimed automatically
             if exactFileMatchEvidenceFound:
-                fileEvidence[filePath]["nonclaimableEvidence"]["exactFile"] = True
+                fileEvidence[filePath]["nonclaimableEvidence"]["exactMatch"] = True
 
             if sourceMatchEvidenceFound:
                 fileEvidence[filePath]["nonclaimableEvidence"]["sourceMatch"] = True
