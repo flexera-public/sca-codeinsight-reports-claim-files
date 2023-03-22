@@ -61,6 +61,7 @@ If the common **server_properties.json** files is not used then the information 
 
 [create_report.py](create_report.py)  -  Update the **baseURL** value. This URL is used for links within the reports.
 
+Report option default values can also be specified in [registration_config.json](registration_config.json).
 
 ### Registering the Report
 

@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2023-03-21
+### Changed
+- Common registration script with registration_config.json file
+
 ## [1.1.0] - 2023-02-02
 ### Changed
 - Logo update
