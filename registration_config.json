@@ -1,0 +1,46 @@
+{
+    "reportName" : "Claimed File Report",
+    "enableProjectPickerValue" : "false",
+    "reportOptions" : {
+        "option1" : 
+        {
+            "name" : "stringsToClaim",
+            "label" : "Evidence contains strings",
+            "description" : "A string or list of stings separated by '|' that will be claimed if it is the <b>only</b> evidence discovered. For example: <b>foo | bar | foobar</b>",
+            "type" : "string",
+            "defaultValue" : "Flexera | Revenera | Acme",
+            "required" : "true",
+            "order" : "1"
+        },
+        "option2" : 
+        {
+            "name" : "isSearchTermClaimable",
+            "label" : "Claim files with search term evidence?  <b>(True/False)</b>",
+            "description" : "<b>True</b> - Claim file if there is search terms evidence in file.<br> <b>False</b> - Do Not claim file if there is search terms evidence in file.",
+            "type" : "string",
+            "defaultValue" : "True",
+            "required" : "true",
+            "order" : "2"
+        } ,
+        "option3" : 
+        {
+            "name" : "takeAction",
+            "label" : "Mark as reviewed and assign files to inventory <b>(True/False)</b>",
+            "description" : "<b>True</b> - Mark files as reviewed and assign to inventory.<br> <b>False</b> - Only report on the actions that would be taken if true.",
+            "type" : "string",
+            "defaultValue" : "False",
+            "required" : "true",
+            "order" : "3"
+        },
+        "option4" : 
+        {
+            "name" : "inventoryItemForClaimedFiles",
+            "label" : "Inventory item to assign claimed files to.",
+            "description" : "All files that are claimed will be marked as reviewed and assigned to this inventory item if the above open is <b>True</b>.",
+            "type" : "string",
+            "defaultValue" : "My Claimed Files",
+            "required" : "false",
+            "order" : "4"
+        }
+    }
+}
