@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.1] - 2023-10-16
+### Changed
+- Update api submodule to prep for tomcat upgrade in 2023R4
+- Common requiremtns file for Python 3.6.8
+
 ## [1.2.0] - 2023-03-21
 ### Changed
 - Common registration script with registration_config.json file
