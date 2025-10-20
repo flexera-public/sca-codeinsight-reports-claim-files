@@ -150,7 +150,8 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
 
             # The item does not exist so create it
             if inventoryID == 0:
-                inventoryID = CodeInsight_RESTAPIs.inventory.create_inventory.create_work_in_progress_inventory_item(baseURL, projectID, authToken, inventoryItemForClaimedFiles)
+                inventoryResponse = CodeInsight_RESTAPIs.inventory.create_inventory.create_work_in_progress_inventory_item(baseURL, projectID, authToken, inventoryItemForClaimedFiles)
+                inventoryID = inventoryResponse["id"]  # Extract just the ID from the response
                 logger.debug("Work In Progess Inventory item %s created with ID of: %s" %(inventoryItemForClaimedFiles, inventoryID))
                 # Recall newly created inventory item
                 CodeInsight_RESTAPIs.inventory.recall_inventory.recall_inventory_item(baseURL, inventoryID, authToken)
